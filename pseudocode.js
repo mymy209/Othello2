@@ -24,6 +24,7 @@ let board, turn, winner, blackScore, whiteScore
     
     turn will be set to black (turn=1)
     winner = null; 
+    render()
 
 /* handleGridClick(e)
     if isGameOver(), return; 
