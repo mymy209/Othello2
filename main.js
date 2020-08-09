@@ -9,11 +9,14 @@ const lookup = {
 let mother = document.getElementById('mother');
 
 /*----- event listeners -----*/
-mother.addEventListener('click', e => {
-    console.log(e.target.id);
-  });
+mother.addEventListener('click', handleClick);
 
 /*----- functions -----*/
+function handleClick(e) {
+    board[e.target.id] = turn; 
+    render();
+    turn *= -1;
+}
 function init() {
     board = [
         null, null, null, null, null, null, null, null,
@@ -25,12 +28,9 @@ function init() {
         null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null
     ]
-
-    render();
-}
-
-
-function render() {
+    turn = 1;
+    
+    //create initial board
     for (let i=0; i < 64; i++) {
         let element = document.createElement('div');
         element.id = i; 
@@ -41,11 +41,31 @@ function render() {
         dots.classList.add('dots');
         element.appendChild(dots);
         dots.style.backgroundColor = lookup[board[i]];
-        
+    }
+}
+
+
+function render() {
+    //remove previous board
+    for (let i=0; i<64; i++) {
+        let grid = document.getElementById(i);
+        grid.remove();
+    }
+    //create updated board
+    for (let i=0; i < 64; i++) {
+        let element = document.createElement('div');
+        element.id = i; 
+        element.classList.add('eachGrid');
+        mother.appendChild(element);
+        //create div for color
+        let dots = document.createElement('div');
+        dots.classList.add('dots');
+        element.appendChild(dots);
+        dots.style.backgroundColor = lookup[board[i]];
     }
 
-
 }
+
 
 init(); 
 
