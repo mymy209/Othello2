@@ -1,72 +1,49 @@
-/*----- constants -----*/
-const lookup = {
-    '1': 'black',
+const LOOKUP = {
+    '1': 'black', 
     '-1': 'white',
-    'null': 'green'
-}
-/*----- app's state (variables) -----*/
-/*----- cached element references -----*/
-let mother = document.getElementById('mother');
-
-/*----- event listeners -----*/
-mother.addEventListener('click', handleClick);
-
-/*----- functions -----*/
-function handleClick(e) {
-    board[e.target.id] = turn; 
+    null: 'green' 
+  }
+  
+  const GRIDS = 64;
+  
+  let mother = document.getElementById('mother');
+  
+  let board;
+  let player; 
+  
+  console.log(mother);
+  
+  for (let i=0; i < GRIDS; i++) {
+    let element = document.createElement('div');
+    let circle = document.createElement('div');
+    circle.id = i; 
+    circle.classList.add('circle');
+    element.appendChild(circle);
+    element.classList.add('eachGrid');
+    mother.appendChild(element);
+  }
+  
+  mother.addEventListener('click', e => {
+    board[e.target.id] = player;
+    player *= -1; 
+    render(); 
+    console.log(player);
+  });
+  
+  function init() {
+    board = new Array(GRIDS).fill(null);
+    board[28] = 1; 
+    board[35] = 1; 
+    board[27] = -1;
+    board[36] = -1; 
+    player = 1; 
     render();
-    turn *= -1;
-}
-function init() {
-    board = [
-        null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null, 
-        null, null, null, -1, 1, null, null, null, 
-        null, null, null, 1, -1, null, null, null,
-        null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null,
-        null, null, null, null, null, null, null, null
-    ]
-    turn = 1;
-    
-    //create initial board
-    for (let i=0; i < 64; i++) {
-        let element = document.createElement('div');
-        element.id = i; 
-        element.classList.add('eachGrid');
-        mother.appendChild(element);
-        //create div for color
-        let dots = document.createElement('div');
-        dots.classList.add('dots');
-        element.appendChild(dots);
-        dots.style.backgroundColor = lookup[board[i]];
-    }
-}
-
-
-function render() {
-    //remove previous board
-    for (let i=0; i<64; i++) {
-        let grid = document.getElementById(i);
-        grid.remove();
-    }
-    //create updated board
-    for (let i=0; i < 64; i++) {
-        let element = document.createElement('div');
-        element.id = i; 
-        element.classList.add('eachGrid');
-        mother.appendChild(element);
-        //create div for color
-        let dots = document.createElement('div');
-        dots.classList.add('dots');
-        element.appendChild(dots);
-        dots.style.backgroundColor = lookup[board[i]];
-    }
-
-}
-
-
-init(); 
-
-
+  }
+  
+  function render() {
+    board.forEach((element, idx) => {
+      document.getElementById(idx).style.backgroundColor = LOOKUP[element];
+    });
+  }
+  
+  init(); 

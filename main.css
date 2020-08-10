@@ -9,19 +9,17 @@ h1 {
 
 #mother {
     display: flex; 
-    flex-wrap: wrap;  
+    flex-wrap: wrap; 
   }
   
-.eachGrid {
-    height: auto; 
-    padding: 3.5%; 
+  .eachGrid {
     border: 1px solid black; 
     background-color: green;
-}
-.dots {
-    margin: 0 auto;
-    height: 30px;
-    width: 30px;
+    width: 9%;
+    padding: 1%;
+  }
+  
+  .circle {
     border-radius: 50%;
-    pointer-events: none;
-}
+    padding: 50%;
+  }
