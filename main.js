@@ -2,7 +2,7 @@ const LOOKUP = {
     '1': 'black', 
     '-1': 'white',
     null: 'green' 
-  }
+ }
   
   const GRIDS = 64;
   
@@ -24,10 +24,11 @@ const LOOKUP = {
   }
   
   mother.addEventListener('click', e => {
-    board[e.target.id] = player;
-    player *= -1; 
-    render(); 
+    board[e.target.id] = player;  
     console.log(player);
+    flip(e); 
+    player *= -1;
+    render(); 
   });
   
   function init() {
@@ -47,3 +48,84 @@ const LOOKUP = {
   }
   
   init(); 
+
+  function flip(e) {
+    console.log(e.target.id);
+    //right
+    if (board[e.target.id + 1] === player * -1) {
+      console.log('right');
+      let counter = 1;
+      while (board[e.target.id + counter] === player * -1){
+        board[e.target.id + counter] = player; 
+        counter += 1;
+      }
+    }
+    //left
+    if (board[e.target.id - 1] === player * -1) {
+      console.log('left');
+      let counter = 1;
+      while (board[e.target.id - counter] === player * -1){
+        board[e.target.id - counter] = player; 
+        counter += 1;
+      }
+    }
+    //diagnal right up
+    if (board[e.target.id - 7] === player * -1) {
+      console.log('diagnal right up');
+      let counter = 7;
+      while (board[e.target.id - counter] === player * -1){
+        board[e.target.id - counter] = player; 
+        counter += 7;
+      }
+    }
+    //diagnal right down
+    if (board[e.target.id + 9] === player * -1) {
+      console.log('diagnal right down');
+      let counter = 9;
+      while (board[e.target.id + counter] === player * -1){
+        board[e.target.id + counter] = player; 
+        counter += 9;
+      }
+    }
+    //diagnal left up
+    if (board[e.target.id - 9] === player * -1) {
+      console.log('diagnal left up');
+      let counter = 9;
+      while (board[e.target.id - counter] === player * -1){
+        board[e.target.id - counter] = player; 
+        counter += 9;
+      }
+    }
+    //diagnal left down
+    if (board[e.target.id + 7] === player * -1) {
+      console.log('diagnal left down');
+      let counter = 7;
+      while (board[e.target.id + counter] === player * -1){
+        board[e.target.id + counter] = player; 
+        counter += 7;
+      }
+    }
+    //up 
+    if (board[e.target.id - 8] === player * -1) {
+      console.log('up');
+      let counter = 8;
+      while (board[e.target.id - counter] === player * -1){
+        board[e.target.id - counter] = player; 
+        counter += 8;
+      }
+    }
+    //down
+    if (board[e.target.id + 8] === player * -1) {
+      console.log('down');
+      let counter = 8;
+      while (board[e.target.id + counter] === player * -1){
+        board[e.target.id + counter] = player; 
+        counter += 8;
+      }
+    }
+
+    
+    
+  }
+      
+  
