@@ -14,6 +14,7 @@ let board;
 let player; 
 let blackCount; 
 let whiteCount; 
+let canFlip;
 
 /*----- cached element references -----*/
 let mother = document.getElementById('mother');
@@ -35,12 +36,14 @@ mother.appendChild(element);
 
 /*----- event listeners -----*/
 mother.addEventListener('click', e => {
-board[e.target.id] = player;  
-console.log(player);
-flip(e); 
-player *= -1;
-counter(); 
-render(); 
+  flip(e); 
+  if (canFlip === false) {
+    return; 
+  } 
+  board[e.target.id] = player;  
+  player *= -1;
+  counter(); 
+  render(); 
 });
 
 function init() {
@@ -76,6 +79,7 @@ function render() {
 function flip(e) {
   console.log(e.target.id);
   let elementID = parseInt(e.target.id);
+  canFlip = false;
   if (EDGE.includes(elementID)) {
     console.log('edge');
     //top edge
@@ -92,9 +96,10 @@ function flip(e) {
         }
         if (board[checkingIdx] === player) {
           counter = 1; 
+          canFlip = true;
           while (board[elementID + counter] === player * -1){
             board[elementID + counter] = player; 
-            counter += 1;
+            counter += 1; 
           }
         }
       }
@@ -110,6 +115,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player) {
           counter = 1; 
+          canFlip = true;
           while (board[elementID - counter] === player * -1){
             board[elementID - counter] = player; 
             counter += 1;
@@ -131,6 +137,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player) {
           counter = 1; 
+          canFlip = true;
           while (board[elementID + counter] === player * -1){
             board[elementID + counter] = player; 
             counter += 1;
@@ -149,6 +156,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player) {
           counter = 1; 
+          canFlip = true;
           while (board[elementID - counter] === player * -1){
             board[elementID - counter] = player; 
             counter += 1;
@@ -171,6 +179,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player){
           counter = 8; 
+          canFlip = true;
           while (board[elementID - counter] === player * -1){
             board[elementID - counter] = player; 
             counter += 8;
@@ -189,6 +198,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player){
         counter = 8; 
+        canFlip = true;
           while (board[elementID + counter] === player * -1){
             board[elementID + counter] = player; 
             counter += 8;
@@ -210,6 +220,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player){
           counter = 8; 
+          canFlip = true;
           while (board[elementID - counter] === player * -1){
             board[elementID - counter] = player; 
             counter += 8;
@@ -228,6 +239,7 @@ function flip(e) {
         }
         if (board[checkingIdx] === player){
         counter = 8; 
+        canFlip = true;
           while (board[elementID + counter] === player * -1){
             board[elementID + counter] = player; 
             counter += 8;
@@ -250,6 +262,7 @@ function flip(e) {
     }
     if (board[checkingIdx] === player){
       counter = 1; 
+      canFlip = true;
       while (board[elementID + counter] === player * -1){
         board[elementID + counter] = player; 
         counter += 1;
@@ -269,6 +282,7 @@ if (board[elementID - 1] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 1; 
+    canFlip = true;
     while (board[elementID - counter] === player * -1){
       board[elementID - counter] = player; 
       counter += 1;
@@ -288,6 +302,7 @@ if (board[elementID - 7] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 7; 
+    canFlip = true;
     while (board[elementID - counter] === player * -1){
       board[elementID - counter] = player; 
       counter += 7;
@@ -307,6 +322,7 @@ if (board[elementID + 9] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 9; 
+    canFlip = true;
     while (board[elementID + counter] === player * -1){
       board[elementID + counter] = player; 
       counter += 9;
@@ -326,6 +342,7 @@ if (board[elementID - 9] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 9; 
+    canFlip = true;
     while (board[elementID - counter] === player * -1){
       board[elementID - counter] = player; 
       counter += 9;
@@ -344,6 +361,7 @@ if (board[elementID + 7] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 7; 
+    canFlip = true;
     while (board[elementID + counter] === player * -1){
       board[elementID + counter] = player; 
       counter += 7;
@@ -363,6 +381,7 @@ if (board[elementID - 8] === player * -1) {
   }
   if (board[checkingIdx] === player){
     counter = 8; 
+    canFlip = true;
     while (board[elementID - counter] === player * -1){
       board[elementID - counter] = player; 
       counter += 8;
@@ -382,13 +401,14 @@ if (board[elementID + 8] === player * -1) {
   }
   if (board[checkingIdx] === player){
   counter = 8; 
+  canFlip = true;
     while (board[elementID + counter] === player * -1){
       board[elementID + counter] = player; 
       counter += 8;
     }
   }
 }
-  }
+}
 
   
   
