@@ -99,7 +99,7 @@ function flip(e) {
           canFlip = true;
           while (board[elementID + counter] === player * -1){
             board[elementID + counter] = player; 
-            counter += 1; 
+            counter += 1;
           }
         }
       }
@@ -166,7 +166,7 @@ function flip(e) {
     
     }
     //left edge
-    if (elementID >= 56 && elementID <= 0 && (elementID%8 === 0)) {
+    if (elementID >= 0 && elementID <= 56 && (elementID%8 === 0)) {
       //UP
       if (board[elementID - 8] === player * -1) {
         console.log('up');
@@ -426,5 +426,7 @@ function counter(){
     }
   })
 }
+
+
 
 init(); 
