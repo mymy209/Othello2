@@ -6,7 +6,7 @@ const LOOKUP = {
  }
   
 const GRIDS = 64;
-  
+
 /*----- app's state (variables) -----*/
 let board;
 let player; 
@@ -71,26 +71,116 @@ if (player === 1){
 }
   
 function flip(e) {
-  console.log(e.target.id);
   let elementID = parseInt(e.target.id);
+  console.log(elementID);
   //right
-  if (board[elementID + 1] === player * -1) {
+  /*if (board[elementID + 1] === player * -1) {
     console.log('right');
     let counter = 1;
+    if (elementID < 7) {
+      let edge = 7; 
+      canFlip(elementID);
+      }
+    } else if (elementID < 15) {
+
+    } else if (elementID <23) {
+
+    } else if (elementID < 31) {
+
+    } else if (elementID < 39) {
+
+    } else if (elementID < 47) {
+
+    } else if (elementID < 55) {
+
+    } else if (elementID < 63) {
+
+    }
+    //flip in board array
     while (board[elementID + counter] === player * -1){
       board[elementID + counter] = player; 
       counter += 1;
     }
-  }
+  */
   //left
   if (board[elementID - 1] === player * -1) {
     console.log('left');
     let counter = 1;
-    while (board[elementID - counter] === player * -1){
-      board[elementID - counter] = player; 
-      counter += 1;
+    if (elementID > 56) {
+      console.log('I ran');
+      if (canFlip(elementID, 56)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+      }
+    } else if (elementID > 48) {
+      console.log('I ran');
+      if (canFlip(elementID, 48)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 40) {
+      console.log('I ran');
+      if (canFlip(elementID, 40)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 32) {
+      console.log('I ran');
+      if (canFlip(elementID, 32)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 24) {
+      console.log('I ran');
+      if (canFlip(elementID, 24)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 16) {
+      console.log('I ran');
+      if (canFlip(elementID, 16)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 8) {
+      console.log('I ran');
+      if (canFlip(elementID, 8)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
+
+    } else if (elementID > 0) {
+      console.log('I ran');
+      if (canFlip(elementID, 0)) {
+        while (board[elementID - counter] === player * -1){
+          board[elementID - counter] = player; 
+          counter += 1;
+        }
+      }
     }
   }
+    
+  /*
   //diagnal right up
   if (board[elementID - 7] === player * -1) {
     console.log('diagnal right up');
@@ -145,22 +235,33 @@ function flip(e) {
         counter += 8;
       }
     }
-    
   }
+*/
 
-  function counter(){
-    blackCount = 0; 
-    whiteCount = 0; 
-    board.forEach(function (grid){
-      if (grid === 1) {
-        blackCount++; 
-      }
-      if (grid === -1) {
-        whiteCount++; 
-      }
-    })
+
+function canFlip(elementID, edge) {
+  while ((elementID + counter) !== edge) {
+    if ((elementID + counter) === null) {
+      return false; 
+    } else if ((elementID + counter) === player) {
+      return false; 
+    } else if ((elementID + counter) === player * -1) {
+      return true; 
+    }
   }
+}
 
-  init(); 
-      
-  
+function counter(){
+  blackCount = 0; 
+  whiteCount = 0; 
+  board.forEach(function (grid){
+    if (grid === 1) {
+      blackCount++; 
+    }
+    if (grid === -1) {
+      whiteCount++; 
+    }
+  });
+}
+
+init(); 

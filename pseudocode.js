@@ -62,6 +62,12 @@ let board, turn, winner, blackScore, whiteScore
     must use "edge" to stop counter (+-7, +-8)
     return the index of grids that must be updated in board array
     board[idx] = turn;
+    check if flippable{
+        1. keep adding count to index 
+            a. if it hits null during that process, exit the loop --> do not change board
+            b. if find same color --> change board
+            c. if hits edge, exit loop --> do not change board
+    }
         if can't flip anything, return false
 
 
