@@ -72,7 +72,7 @@ if (player === 1){
   
 function flip(e) {
   let elementID = parseInt(e.target.id);
-  console.log(elementID);
+  
   //right
   /*if (board[elementID + 1] === player * -1) {
     console.log('right');
@@ -103,9 +103,11 @@ function flip(e) {
     }
   */
   //left
+  
   if (board[elementID - 1] === player * -1) {
     console.log('left');
     let counter = 1;
+    console.log(elementID);
     if (elementID > 56) {
       console.log('I ran');
       if (canFlip(elementID, 56)) {
@@ -114,7 +116,7 @@ function flip(e) {
           counter += 1;
         }
       }
-      }
+      
     } else if (elementID > 48) {
       console.log('I ran');
       if (canFlip(elementID, 48)) {
@@ -179,6 +181,7 @@ function flip(e) {
       }
     }
   }
+}
     
   /*
   //diagnal right up
@@ -237,6 +240,7 @@ function flip(e) {
     }
   }
 */
+
 
 
 function canFlip(elementID, edge) {
