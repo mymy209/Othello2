@@ -4,7 +4,7 @@ const lookup = {
     '-1': 'white'
 }
 
-const edge = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 32, 40, 48, 56, 15, 23, 31, 39, 47, 55, 63, 57, 58, 59, 60, 61, 62, 63];
+const edge = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 24, 32, 40, 48, 56, 15, 23, 31, 39, 47, 55, 63, 57, 58, 59, 60, 61, 62];
 
 /*----- app's state (variables) -----*/
 let board, turn, winner, blackScore, whiteScore
