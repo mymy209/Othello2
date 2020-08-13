@@ -14,12 +14,14 @@ let board;
 let player; 
 let blackCount; 
 let whiteCount; 
+let canFlip;
 
 /*----- cached element references -----*/
 let mother = document.getElementById('mother');
 let turn = document.getElementById('turn');
 let blackCountDisplay = document.getElementById('blackCount');
 let whiteCountDisplay = document.getElementById('whiteCount');
+const replayEl = document.getElementById('replay');
 
 
 //create board 
@@ -35,12 +37,14 @@ mother.appendChild(element);
 
 /*----- event listeners -----*/
 mother.addEventListener('click', e => {
-board[e.target.id] = player;  
-console.log(player);
-flip(e); 
-player *= -1;
-counter(); 
-render(); 
+  flip(e); 
+  if (canFlip === false || isGameOver()) {
+    return; 
+  } 
+  board[e.target.id] = player;  
+  player *= -1;
+  counter(); 
+  render(); 
 });
 
 function init() {
@@ -58,23 +62,196 @@ function init() {
 
 /*----- functions -----*/
 function render() {
-board.forEach((element, idx) => {
-  document.getElementById(idx).style.backgroundColor = LOOKUP[element];
-});
-//change turn display
-if (player === 1){
-  turn.textContent = 'BLACK';
-} else {
-  turn.textContent = 'WHITE';
+  board.forEach((element, idx) => {
+    document.getElementById(idx).style.backgroundColor = LOOKUP[element];
+  });
+  //change turn display
+  if (player === 1){
+    turn.textContent = 'BLACK';
+  } else {
+    turn.textContent = 'WHITE';
+  }
+  //change count display
+  whiteCountDisplay.textContent = whiteCount; 
+  blackCountDisplay.textContent = blackCount; 
+  replayEl.style.visibility = isGameOver() ? 'visible' : 'hidden';
 }
-//change count display
-whiteCountDisplay.textContent = whiteCount; 
-blackCountDisplay.textContent = blackCount; 
-}
+
 
 function flip(e) {
   console.log(e.target.id);
   let elementID = parseInt(e.target.id);
+  canFlip = false;
+  if (EDGE.includes(elementID)) {
+    console.log('edge');
+    //top edge
+    if (elementID <= 7 && elementID >= 1) {
+      //RIGHT
+      if (board[elementID + 1] === player * -1) {
+        console.log('edge right');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID + counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 7) {
+          counter += 1; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+          while (board[elementID + counter] === player * -1){
+            board[elementID + counter] = player; 
+            counter += 1;
+          }
+        }
+      }
+      //LEFT
+      if (board[elementID - 1] === player * -1) {
+        console.log('edge left');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID - counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 0) {
+          counter += 1; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+          while (board[elementID - counter] === player * -1){
+            board[elementID - counter] = player; 
+            counter += 1;
+          }
+        }
+      }
+    }
+    //bottom edge
+    if (elementID <= 63 && elementID >= 56) {
+      //RIGHT
+      if (board[elementID + 1] === player * -1) {
+        console.log('edge right');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID + counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 63) {
+          counter += 1; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+          while (board[elementID + counter] === player * -1){
+            board[elementID + counter] = player; 
+            counter += 1;
+          }
+        }
+      }
+      //LEFT
+      if (board[elementID - 1] === player * -1) {
+        console.log('edge left');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID - counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 56) {
+          counter += 1; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+          while (board[elementID - counter] === player * -1){
+            board[elementID - counter] = player; 
+            counter += 1;
+          }
+        }
+      }
+    
+    }
+    //left edge
+    if (elementID >= 0 && elementID <= 56 && (elementID%8 === 0)) {
+      //UP
+      if (board[elementID - 8] === player * -1) {
+        console.log('up');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID - counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 0) {
+          counter += 8; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player){
+          counter = 8; 
+          canFlip = true;
+          while (board[elementID - counter] === player * -1){
+            board[elementID - counter] = player; 
+            counter += 8;
+          }
+        }
+      }
+      //DOWN
+      if (board[elementID + 8] === player * -1) {
+        console.log('down');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID + counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 56) {
+          counter += 8; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player){
+        counter = 8; 
+        canFlip = true;
+          while (board[elementID + counter] === player * -1){
+            board[elementID + counter] = player; 
+            counter += 8;
+          }
+        }   
+      }
+    }
+    //right edge
+    if (elementID >= 7 && elementID <= 63 && (elementID%8 === 7)) {
+      //UP
+      if (board[elementID - 8] === player * -1) {
+        console.log('up');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID - counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 7) {
+          counter += 8; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player){
+          counter = 8; 
+          canFlip = true;
+          while (board[elementID - counter] === player * -1){
+            board[elementID - counter] = player; 
+            counter += 8;
+          }
+        }
+      }
+      //DOWN
+      if (board[elementID + 8] === player * -1) {
+        console.log('down');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID + counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 63) {
+          counter += 8; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player){
+        counter = 8; 
+        canFlip = true;
+          while (board[elementID + counter] === player * -1){
+            board[elementID + counter] = player; 
+            counter += 8;
+          }
+        }   
+      }
+    }
+  
+  }
+  //middle of board
   //RIGHT
   if (board[elementID + 1] === player * -1) {
     console.log('right');
@@ -87,139 +264,424 @@ function flip(e) {
     }
     if (board[checkingIdx] === player){
       counter = 1; 
+      canFlip = true;
       while (board[elementID + counter] === player * -1){
         board[elementID + counter] = player; 
         counter += 1;
       }
     }
   }
-  //LEFT
-  if (board[elementID - 1] === player * -1) {
-    console.log('left');
-    let counter = 1;
-    //check if sandwiched
-    let checkingIdx = elementID - counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
-      counter += 1; 
-      checkingIdx = elementID - counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 1; 
-      while (board[elementID - counter] === player * -1){
-        board[elementID - counter] = player; 
-        counter += 1;
-      }
-    }
+
+//LEFT
+if (board[elementID - 1] === player * -1) {
+  console.log('left');
+  let counter = 1;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
+    counter += 1; 
+    checkingIdx = elementID - counter; 
   }
-  //DIAGNAL RIGHT UP
-  if (board[elementID - 7] === player * -1) {
-    console.log('diagnal right up');
-    let counter = 7;
-    //check if sandwiched
-    let checkingIdx = elementID - counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
-      counter += 7; 
-      checkingIdx = elementID - counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 7; 
-      while (board[elementID - counter] === player * -1){
-        board[elementID - counter] = player; 
-        counter += 7;
-      }
-    }
-  }
-  //DIAGNAL RIGHT DOWN
-  if (board[elementID + 9] === player * -1) {
-    console.log('diagnal right down');
-    let counter = 9;
-    //check if sandwiched
-    let checkingIdx = elementID + counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
-      counter += 9; 
-      checkingIdx = elementID + counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 9; 
-      while (board[elementID + counter] === player * -1){
-        board[elementID + counter] = player; 
-        counter += 9;
-      }
-    }
-  }
-  //DIAGNAL LEFT UP
-  if (board[elementID - 9] === player * -1) {
-    console.log('diagnal left up');
-    let counter = 9;
-    //check if sandwiched
-    let checkingIdx = elementID - counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
-      counter += 9; 
-      checkingIdx = elementID - counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 9; 
-      while (board[elementID - counter] === player * -1){
-        board[elementID - counter] = player; 
-        counter += 9;
-      }
-    }
-  }
-  //diagnal left down
-  if (board[elementID + 7] === player * -1) {
-    console.log('diagnal left down');
-    let counter = 7;
-    //check if sandwiched
-    let checkingIdx = elementID + counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
-      counter += 7; 
-      checkingIdx = elementID + counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 7; 
-      while (board[elementID + counter] === player * -1){
-        board[elementID + counter] = player; 
-        counter += 7;
-      }
-    }
-  }
-  //up 
-  if (board[elementID - 8] === player * -1) {
-    console.log('up');
-    let counter = 8;
-    //check if sandwiched
-    let checkingIdx = elementID - counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
-      counter += 8; 
-      checkingIdx = elementID - counter; 
-    }
-    if (board[checkingIdx] === player){
-      counter = 8; 
-      while (board[elementID - counter] === player * -1){
-        board[elementID - counter] = player; 
-        counter += 8;
-      }
-    }
-  }
-  //down
-  if (board[elementID + 8] === player * -1) {
-    console.log('down');
-    let counter = 8;
-    //check if sandwiched
-    let checkingIdx = elementID + counter;
-    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
-      counter += 8; 
-      checkingIdx = elementID + counter; 
-    }
-    if (board[checkingIdx] === player){
-    counter = 8; 
-      while (board[elementID + counter] === player * -1){
-        board[elementID + counter] = player; 
-        counter += 8;
-      }
+  if (board[checkingIdx] === player){
+    counter = 1; 
+    canFlip = true;
+    while (board[elementID - counter] === player * -1){
+      board[elementID - counter] = player; 
+      counter += 1;
     }
   }
 }
+
+//DIAGNAL RIGHT UP
+if (board[elementID - 7] === player * -1) {
+  console.log('diagnal right up');
+  let counter = 7;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
+    counter += 7; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 7; 
+    canFlip = true;
+    while (board[elementID - counter] === player * -1){
+      board[elementID - counter] = player; 
+      counter += 7;
+    }
+  }
+}
+
+//DIAGNAL RIGHT DOWN
+if (board[elementID + 9] === player * -1) {
+  console.log('diagnal right down');
+  let counter = 9;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 9; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 9; 
+    canFlip = true;
+    while (board[elementID + counter] === player * -1){
+      board[elementID + counter] = player; 
+      counter += 9;
+    }
+  }
+}
+
+//DIAGNAL LEFT UP
+if (board[elementID - 9] === player * -1) {
+  console.log('diagnal left up');
+  let counter = 9;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 9; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 9; 
+    canFlip = true;
+    while (board[elementID - counter] === player * -1){
+      board[elementID - counter] = player; 
+      counter += 9;
+    }
+  }
+}
+//DIAGNAL LEFT DOWN
+if (board[elementID + 7] === player * -1) {
+  console.log('diagnal left down');
+  let counter = 7;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 7; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 7; 
+    canFlip = true;
+    while (board[elementID + counter] === player * -1){
+      board[elementID + counter] = player; 
+      counter += 7;
+    }
+  }
+}
+
+//UP
+if (board[elementID - 8] === player * -1) {
+  console.log('up');
+  let counter = 8;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 8; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 8; 
+    canFlip = true;
+    while (board[elementID - counter] === player * -1){
+      board[elementID - counter] = player; 
+      counter += 8;
+    }
+  }
+}
+
+//DOWN
+if (board[elementID + 8] === player * -1) {
+  console.log('down');
+  let counter = 8;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 8; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+  counter = 8; 
+  canFlip = true;
+    while (board[elementID + counter] === player * -1){
+      board[elementID + counter] = player; 
+      counter += 8;
+    }
+  }
+}
+}
+
+  
+function flip2(e) {
+  let elementID = e;
+  canFlip = false;
+  if (EDGE.includes(elementID)) {
+    console.log('edge');
+    //top edge
+    if (elementID <= 7 && elementID >= 1) {
+      //RIGHT
+      if (board[elementID + 1] === player * -1) {
+        console.log('edge right');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID + counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 7) {
+          counter += 1; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+        }
+      }
+      //LEFT
+      if (board[elementID - 1] === player * -1) {
+        console.log('edge left');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID - counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 0) {
+          counter += 1; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+        }
+      }
+    }
+    //bottom edge
+    if (elementID <= 63 && elementID >= 56) {
+      //RIGHT
+      if (board[elementID + 1] === player * -1) {
+        console.log('edge right');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID + counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 63) {
+          counter += 1; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+        }
+      }
+      //LEFT
+      if (board[elementID - 1] === player * -1) {
+        console.log('edge left');
+        let counter = 1; 
+        //check if sandwiched
+        let checkingIdx = elementID - counter; 
+        while (board[checkingIdx] === player * -1 && checkingIdx !== 56) {
+          counter += 1; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player) {
+          counter = 1; 
+          canFlip = true;
+        }
+      }
+    
+    }
+    //left edge
+    if (elementID >= 0 && elementID <= 56 && (elementID%8 === 0)) {
+      //UP
+      if (board[elementID - 8] === player * -1) {
+        console.log('up');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID - counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 0) {
+          counter += 8; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player){
+          counter = 8; 
+          canFlip = true;
+        }
+      }
+      //DOWN
+      if (board[elementID + 8] === player * -1) {
+        console.log('down');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID + counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 56) {
+          counter += 8; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player){
+        counter = 8; 
+        canFlip = true;
+        }   
+      }
+    }
+    //right edge
+    if (elementID >= 7 && elementID <= 63 && (elementID%8 === 7)) {
+      //UP
+      if (board[elementID - 8] === player * -1) {
+        console.log('up');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID - counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 7) {
+          counter += 8; 
+          checkingIdx = elementID - counter; 
+        }
+        if (board[checkingIdx] === player){
+          counter = 8; 
+          canFlip = true;
+        }
+      }
+      //DOWN
+      if (board[elementID + 8] === player * -1) {
+        console.log('down');
+        let counter = 8;
+        //check if sandwiched
+        let checkingIdx = elementID + counter;
+        while ((board[checkingIdx] === player * -1) && checkingIdx != 63) {
+          counter += 8; 
+          checkingIdx = elementID + counter; 
+        }
+        if (board[checkingIdx] === player){
+        counter = 8; 
+        canFlip = true;
+        }   
+      }
+    }
+  
+  }
+  //middle of board
+  //RIGHT
+  if (board[elementID + 1] === player * -1) {
+    console.log('right');
+    let counter = 1;
+    //check if sandwiched
+    let checkingIdx = elementID + counter;
+    while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
+      counter += 1; 
+      checkingIdx = elementID + counter; 
+    }
+    if (board[checkingIdx] === player){
+      counter = 1; 
+      canFlip = true;
+    }
+  }
+
+//LEFT
+if (board[elementID - 1] === player * -1) {
+  console.log('left');
+  let counter = 1;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
+    counter += 1; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 1; 
+    canFlip = true;
+  }
+}
+
+//DIAGNAL RIGHT UP
+if (board[elementID - 7] === player * -1) {
+  console.log('diagnal right up');
+  let counter = 7;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) { 
+    counter += 7; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 7; 
+    canFlip = true;
+  }
+}
+
+//DIAGNAL RIGHT DOWN
+if (board[elementID + 9] === player * -1) {
+  console.log('diagnal right down');
+  let counter = 9;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 9; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 9; 
+    canFlip = true;
+  }
+}
+
+//DIAGNAL LEFT UP
+if (board[elementID - 9] === player * -1) {
+  console.log('diagnal left up');
+  let counter = 9;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 9; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 9; 
+    canFlip = true;
+  }
+}
+//DIAGNAL LEFT DOWN
+if (board[elementID + 7] === player * -1) {
+  console.log('diagnal left down');
+  let counter = 7;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 7; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 7; 
+    canFlip = true;
+  }
+}
+
+//UP
+if (board[elementID - 8] === player * -1) {
+  console.log('up');
+  let counter = 8;
+  //check if sandwiched
+  let checkingIdx = elementID - counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 8; 
+    checkingIdx = elementID - counter; 
+  }
+  if (board[checkingIdx] === player){
+    counter = 8; 
+    canFlip = true;
+  }
+}
+
+//DOWN
+if (board[elementID + 8] === player * -1) {
+  console.log('down');
+  let counter = 8;
+  //check if sandwiched
+  let checkingIdx = elementID + counter;
+  while ((board[checkingIdx] === player * -1) && !EDGE.includes(checkingIdx)) {
+    counter += 8; 
+    checkingIdx = elementID + counter; 
+  }
+  if (board[checkingIdx] === player){
+  counter = 8; 
+  canFlip = true;
+  }
+}
+}
+
 
 function counter(){
   blackCount = 0; 
@@ -232,6 +694,40 @@ function counter(){
       whiteCount++; 
     }
   })
+}
+
+function isGameOver() {
+  if (!board.includes(null)){
+    return true;
+  } else {
+  let nullIdx = [];
+  let canWhiteFlipIdx = [];
+  let canBlackFlipIdx = [];
+  board.forEach(function(input, idx){
+    if (!input) {
+      nullIdx.push(idx);
+    }
+  });
+  console.log(nullIdx);
+  nullIdx.forEach(function(idx){
+    flip2(idx);
+    if (canFlip) {
+      if (player ===1) {
+        canBlackFlipIdx.push(idx);
+      } else {
+        canWhiteFlipIdx.push(idx);
+      }
+    }
+  });
+  console.log(canWhiteFlipIdx, canBlackFlipIdx);
+  if (player === 1 && canBlackFlipIdx.length === 0) {
+    return true;
+  } else if (player === -1 && canWhiteFlipIdx.length === 0){
+    return true; 
+  } else {
+    return false; 
+  }
+}
 }
 
 init(); 
