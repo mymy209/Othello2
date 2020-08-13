@@ -41,7 +41,7 @@ myAudio.play();
 /*----- event listeners -----*/
 mother.addEventListener('click', e => {
   checkFlip(e);
-  if (canFlip === false || isGameOver()) {
+  if (canFlip === false || isGameOver() || board[e.target.id]) {
     return; 
   } 
   flip(e);
