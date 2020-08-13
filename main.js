@@ -21,6 +21,7 @@ let mother = document.getElementById('mother');
 let turn = document.getElementById('turn');
 let blackCountDisplay = document.getElementById('blackCount');
 let whiteCountDisplay = document.getElementById('whiteCount');
+let winnerDisplay = document.querySelector('h2');
 const replayEl = document.getElementById('replay');
 
 
@@ -34,6 +35,8 @@ element.appendChild(circle);
 element.classList.add('eachGrid');
 mother.appendChild(element);
 }
+var myAudio = new Audio('https://freesound.org/people/Mondschein90/sounds/175672/');
+myAudio.play();
 
 /*----- event listeners -----*/
 mother.addEventListener('click', e => {
@@ -42,6 +45,7 @@ mother.addEventListener('click', e => {
     return; 
   } 
   flip(e);
+  playInput(); 
   board[e.target.id] = player;  
   player *= -1;
   counter(); 
@@ -61,6 +65,7 @@ function init() {
   player = 1; 
   blackCount = 2; 
   whiteCount = 2; 
+  winnerDisplay.innerText = '';
   render();
 }
 
@@ -77,7 +82,18 @@ function render() {
   //change count display
   whiteCountDisplay.textContent = whiteCount; 
   blackCountDisplay.textContent = blackCount; 
+  //if game is over
   replayEl.style.visibility = isGameOver() ? 'visible' : 'hidden';
+  if (isGameOver()){
+    playEnd(); 
+    if (blackCount > whiteCount) {
+      winnerDisplay.innerText = "BLACK WINS!";
+    } else if (whiteCount > blackCount) {
+      winnerDisplay.innerText = "WHITE WINS!";
+    } else {
+      winnerDisplay.innerText = "TIED!"
+    }
+  }
 }
 
 function checkFlip(e) {
@@ -421,7 +437,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx < 0) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 0) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -440,7 +456,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx > 56) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 56) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -946,6 +962,18 @@ function isGameOver() {
     return false; 
   }
 }
+}
+
+function playEnd() {
+  var audio = document.createElement("audio");
+  audio.src = "https://freesound.org/data/previews/175/175672_643083-lq.mp3";
+  audio.play();
+}
+
+function playInput() {
+  var audio = document.createElement("audio");
+  audio.src = "https://freesound.org/data/previews/496/496187_3910073-lq.mp3"
+  audio.play(); 
 }
 
 init(); 
