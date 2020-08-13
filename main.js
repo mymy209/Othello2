@@ -39,7 +39,6 @@ mother.appendChild(element);
 mother.addEventListener('click', e => {
   checkFlip(e);
   if (canFlip === false || isGameOver()) {
-    console.log(isGameOver());
     return; 
   } 
   flip(e);
@@ -94,7 +93,7 @@ function checkFlip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 7) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 7) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -108,7 +107,7 @@ function checkFlip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 0) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 0) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -125,7 +124,7 @@ function checkFlip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 63) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 63) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -139,7 +138,7 @@ function checkFlip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 56) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 56) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -156,7 +155,7 @@ function checkFlip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 0) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 0) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -170,7 +169,7 @@ function checkFlip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 56) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 56) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -187,7 +186,7 @@ function checkFlip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 7) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 7) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -201,7 +200,7 @@ function checkFlip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 63) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 63) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -340,7 +339,7 @@ function flip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 7) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 7) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -359,7 +358,7 @@ function flip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 0) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 0) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -381,7 +380,7 @@ function flip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 63) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 63) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -400,7 +399,7 @@ function flip(e) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 56) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 56) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -422,7 +421,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 0) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 0) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -441,7 +440,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 56) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 56) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -463,7 +462,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 7) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 7) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -482,7 +481,7 @@ function flip(e) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 63) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 63) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -666,7 +665,7 @@ function flip2(idx) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 7) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 7) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -680,7 +679,7 @@ function flip2(idx) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 0) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 0) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -697,7 +696,7 @@ function flip2(idx) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID + counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 63) {
+        while (board[checkingIdx] === player * -1 && checkingIdx < 63) {
           counter += 1; 
           checkingIdx = elementID + counter; 
         }
@@ -711,7 +710,7 @@ function flip2(idx) {
         let counter = 1; 
         //check if sandwiched
         let checkingIdx = elementID - counter; 
-        while (board[checkingIdx] === player * -1 && checkingIdx !== 56) {
+        while (board[checkingIdx] === player * -1 && checkingIdx > 56) {
           counter += 1; 
           checkingIdx = elementID - counter; 
         }
@@ -728,7 +727,7 @@ function flip2(idx) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 0) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 0) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -742,7 +741,7 @@ function flip2(idx) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 56) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 56) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
@@ -759,7 +758,7 @@ function flip2(idx) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID - counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 7) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx < 7) {
           counter += 8; 
           checkingIdx = elementID - counter; 
         }
@@ -773,7 +772,7 @@ function flip2(idx) {
         let counter = 8;
         //check if sandwiched
         let checkingIdx = elementID + counter;
-        while ((board[checkingIdx] === player * -1) && checkingIdx != 63) {
+        while ((board[checkingIdx] === player * -1) && checkingIdx > 63) {
           counter += 8; 
           checkingIdx = elementID + counter; 
         }
