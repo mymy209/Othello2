@@ -1,6 +1,8 @@
 # Othello
 Othello is a strategic 2-player board game where each player places chosen color disk.
 
+Black always goes first, and game ends when a player cannot make any more move or when the entire board is filled.
+
 When a player surrounds other player's disk in any direction (horizontally, vertically, or diagnally), the player takes over the sandwiched disks.
 
 Outsmart your opponent and dominate the board with your color!
