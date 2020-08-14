@@ -17,7 +17,7 @@ Outsmart your opponent and dominate the board with your color!
 - JavaScript
 
 ## Getting Started
-[PLAY OTHELLO HERE](https://mymy209.github.io/Othello/)
+[PLAY OTHELLO HERE](https://mymy209.github.io/Othello2/)
 
 ## Next Steps
 - Add animation when disks are flipping
