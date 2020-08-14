@@ -27,16 +27,14 @@ const replayEl = document.getElementById('replay');
 
 //create board 
 for (let i=0; i < GRIDS; i++) {
-let element = document.createElement('div');
-let circle = document.createElement('div');
-circle.id = i; 
-circle.classList.add('circle');
-element.appendChild(circle);
-element.classList.add('eachGrid');
-mother.appendChild(element);
+  let element = document.createElement('div');
+  let circle = document.createElement('div');
+  circle.id = i; 
+  circle.classList.add('circle');
+  element.appendChild(circle);
+  element.classList.add('eachGrid');
+  mother.appendChild(element);
 }
-var myAudio = new Audio('https://freesound.org/people/Mondschein90/sounds/175672/');
-myAudio.play();
 
 /*----- event listeners -----*/
 mother.addEventListener('click', e => {
@@ -880,32 +878,32 @@ function isGameOver() {
   if (!board.includes(null)){
     return true;
   } else {
-  let nullIdx = [];
-  let canWhiteFlipIdx = [];
-  let canBlackFlipIdx = [];
-  board.forEach(function(input, idx){
-    if (!input) {
-      nullIdx.push(idx);
-    }
-  });
-  nullIdx.forEach(function(idx){
-    flip2(idx);
-    if (canFlip) {
-      if (player ===1) {
-        canBlackFlipIdx.push(idx);
-      } else {
-        canWhiteFlipIdx.push(idx);
+    let nullIdx = [];
+    let canWhiteFlipIdx = [];
+    let canBlackFlipIdx = [];
+    board.forEach(function(input, idx){
+      if (!input) {
+        nullIdx.push(idx);
       }
+    });
+    nullIdx.forEach(function(idx){
+      flip2(idx);
+      if (canFlip) {
+        if (player ===1) {
+          canBlackFlipIdx.push(idx);
+        } else {
+          canWhiteFlipIdx.push(idx);
+        }
+      }
+    });
+    if (player === 1 && canBlackFlipIdx.length === 0) {
+      return true;
+    } else if (player === -1 && canWhiteFlipIdx.length === 0){
+      return true; 
+    } else {
+      return false; 
     }
-  });
-  if (player === 1 && canBlackFlipIdx.length === 0) {
-    return true;
-  } else if (player === -1 && canWhiteFlipIdx.length === 0){
-    return true; 
-  } else {
-    return false; 
   }
-}
 }
 
 function playEnd() {
